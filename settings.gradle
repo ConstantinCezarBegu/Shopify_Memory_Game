@@ -1,0 +1,2 @@
+rootProject.name='Shopify_Memory_Game'
+include ':app'
