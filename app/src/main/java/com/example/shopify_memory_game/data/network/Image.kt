@@ -1,5 +1,9 @@
-package com.example.shopify_memory_game.network
+package com.example.shopify_memory_game.data.network
 
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -14,11 +18,16 @@ import com.squareup.moshi.JsonClass
         "height": 300,
         "src": "https://cdn.shopify.com/s/files/1/1000/7970/products/Aerodynamic_20Concrete_20Clock.png?v=1443055734",
  */
+
+@Entity(tableName = "z",
+    indices =[Index(value = ["product_id"])]
+)
 @JsonClass(generateAdapter = true)
 data class Image(
     @Json(name = "id")
     val id: Long,
     @Json(name = "product_id")
+    @PrimaryKey(autoGenerate = false)
     val product_id: Long,
     @Json(name = "width")
     val width: Int,

@@ -1,4 +1,4 @@
-package com.example.shopify_memory_game.network
+package com.example.shopify_memory_game.data.network
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

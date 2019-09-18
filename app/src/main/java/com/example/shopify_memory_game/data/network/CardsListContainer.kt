@@ -1,4 +1,4 @@
-package com.example.shopify_memory_game.network
+package com.example.shopify_memory_game.data.network
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
