@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Shopify_Memory_Game</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="adjust_grid_size">Adjust grid size</string>
+    <string name="adjust_match_size">Adjust match size</string>
 </resources>

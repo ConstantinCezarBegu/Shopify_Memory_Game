@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/grid_size_button"
+        android:icon="@drawable/ic_shuffle"
+        android:title="@string/adjust_grid_size"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/match_size_button"
+        android:icon="@drawable/ic_shuffle"
+        android:title="@string/adjust_match_size"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/shuffle_button"
+        android:icon="@drawable/ic_shuffle"
+        android:title="@string/shuffle"
+        app:showAsAction="ifRoom" />
+</menu>
