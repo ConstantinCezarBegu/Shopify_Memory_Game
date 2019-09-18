@@ -1,6 +1,7 @@
 package com.example.shopify_memory_game
 
 import android.app.Application
+import com.constantin.constaflux.data.repository.Repository
 import com.example.shopify_memory_game.data.db.MemoryDatabase
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -15,5 +16,6 @@ class MemoryApplication : Application(), KodeinAware {
         import(androidXModule(this@MemoryApplication))
         bind() from singleton { MemoryDatabase(instance()) }
         bind() from singleton { instance<MemoryDatabase>().imageDao() }
+        bind() from singleton { Repository(instance(), instance()) }
     }
 }

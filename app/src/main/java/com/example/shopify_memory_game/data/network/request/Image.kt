@@ -1,4 +1,4 @@
-package com.example.shopify_memory_game.data.network
+package com.example.shopify_memory_game.data.network.request
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -19,7 +19,7 @@ import com.squareup.moshi.JsonClass
         "src": "https://cdn.shopify.com/s/files/1/1000/7970/products/Aerodynamic_20Concrete_20Clock.png?v=1443055734",
  */
 
-@Entity(tableName = "z",
+@Entity(tableName = "memory_image",
     indices =[Index(value = ["product_id"])]
 )
 @JsonClass(generateAdapter = true)
