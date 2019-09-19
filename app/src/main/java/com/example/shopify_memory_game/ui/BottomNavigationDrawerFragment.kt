@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.menu_bottom_sheet.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 
-class BottomNavigationDrawerFragment : BottomSheetDialogFragment(), KodeinAware {
+class BottomNavigationDrawerFragment(private val onNavigationGestures: OnNavigationGestures) :
+    BottomSheetDialogFragment(), KodeinAware {
     override val kodein by closestKodein()
 
     override fun onCreateView(
@@ -25,7 +26,7 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment(), KodeinAware 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navigation_view.setNavigationItemSelectedListener {
-
+            onNavigationGestures.onNavigationItemSelected(it.itemId)
             dismiss()
             true
         }
@@ -35,5 +36,9 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment(), KodeinAware 
         if (isVisible.not()) {
             super.show(manager, tag)
         }
+    }
+
+    interface OnNavigationGestures {
+        fun onNavigationItemSelected(itemId: Int)
     }
 }
