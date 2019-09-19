@@ -11,7 +11,7 @@ val List<Image>.productIds: List<Long>
     get() = map(Image::product_id)
 
 
-fun List<Card>.getImages(): List<Image>{
+fun List<Card>.getImages(): List<Image> {
     return this.map { it.image }
 }
 

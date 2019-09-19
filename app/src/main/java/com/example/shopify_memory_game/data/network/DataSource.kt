@@ -43,8 +43,7 @@ class DataSource(
         return try {
             function()
             true
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             if (notifyError) error.postValue(HttpErrors.INTERNET_CONNECTION)
             false
         } catch (e: HttpException) {

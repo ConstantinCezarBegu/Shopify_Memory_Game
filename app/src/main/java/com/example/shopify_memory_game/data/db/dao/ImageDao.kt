@@ -7,12 +7,12 @@ import com.example.shopify_memory_game.internal.productIds
 
 @Dao
 interface ImageDao {
-    
+
     @Query("SELECT * FROM memory_image")
     fun getImages(): LiveData<List<Image>>
 
     @Transaction
-    suspend fun insertAll(imageList: List<Image>){
+    suspend fun insertAll(imageList: List<Image>) {
         clearOld(imageList.productIds)
         updateCurrent(imageList)
         insertNew(imageList)
