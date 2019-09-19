@@ -35,7 +35,7 @@ class Repository(
 
     private fun persistFetchedImages(fetchedCategories: List<Image>) {
         GlobalScope.launch(Dispatchers.IO) {
-            imageDao.insertNew(fetchedCategories)
+            imageDao.insertAll(fetchedCategories)
         }
     }
 

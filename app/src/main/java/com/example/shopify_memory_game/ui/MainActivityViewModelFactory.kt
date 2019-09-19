@@ -7,14 +7,19 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.constantin.constaflux.data.repository.Repository
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
 class MainActivityViewModelFactory(
     private val context: Context,
-    private val repository: Repository,
 
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
-) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs), KodeinAware {
+    override val kodein by closestKodein(context)
+    private val repository: Repository by instance()
+
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(
         key: String,

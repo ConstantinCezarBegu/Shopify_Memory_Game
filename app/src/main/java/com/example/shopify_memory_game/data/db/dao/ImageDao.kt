@@ -12,7 +12,7 @@ interface ImageDao {
     fun getImages(): LiveData<List<Image>>
 
     @Transaction
-    suspend fun insertAllForWorker(imageList: List<Image>){
+    suspend fun insertAll(imageList: List<Image>){
         clearOld(imageList.productIds)
         updateCurrent(imageList)
         insertNew(imageList)

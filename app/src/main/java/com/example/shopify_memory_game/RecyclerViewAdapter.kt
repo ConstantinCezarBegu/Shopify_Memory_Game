@@ -1,5 +1,6 @@
 package com.example.shopify_memory_game
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.internal.inflate
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.list_item_card.view.*
+
 
 class RecyclerViewAdapter(
     private val onRecyclerOnClickListener: OnRecyclerOnClickListener
@@ -25,6 +29,10 @@ class RecyclerViewAdapter(
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return R.layout.list_item_card
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = parent.inflate(viewType)
         return ImageViewHolder(view, onRecyclerOnClickListener)
@@ -33,7 +41,6 @@ class RecyclerViewAdapter(
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     inner class ImageViewHolder(
@@ -45,6 +52,9 @@ class RecyclerViewAdapter(
         }
 
         fun bind(item: Image) {
+            Picasso.get()
+                .load(item.src)
+                .into(itemView.card_image)
             itemView.setOnClickListener(this)
         }
     }

@@ -6,5 +6,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class CardsListContainer(
     @Json(name = "products")
-    val Cards: List<Card>
+    val cards: List<Card>
 )
