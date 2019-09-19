@@ -1,6 +1,7 @@
 package com.example.shopify_memory_game.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -54,6 +55,7 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
 
     private fun setupUI() = launch {
         viewmodel.imageList.await().observe(this@MainActivity, Observer {
+            progressBar.visibility = View.INVISIBLE
             lisAdapter.submitList(it)
         })
     }
