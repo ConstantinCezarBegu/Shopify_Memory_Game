@@ -21,25 +21,32 @@
         app:menu="@menu/menu_bottom_sheet" />
 
     <TextView
-        android:id="@+id/bottomsheet_username"
+        android:id="@+id/scoreLabelTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        android:text="@string/score"
+        app:layout_constraintBottom_toTopOf="@+id/score_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/bottomsheet_user_url"
+        android:id="@+id/score_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginBottom="16dp"
         android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="@+id/bottomsheet_username"
-        app:layout_constraintTop_toBottomOf="@+id/bottomsheet_username" />
+        app:layout_constraintBottom_toTopOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreLabelTextView" />
 
 
     <View
@@ -51,18 +58,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bottomsheet_user_url" />
-
-    <ImageView
-        android:id="@+id/close_imageview"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/bottomsheet_user_url"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bottomsheet_username" />
+        app:layout_constraintTop_toBottomOf="@+id/score_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

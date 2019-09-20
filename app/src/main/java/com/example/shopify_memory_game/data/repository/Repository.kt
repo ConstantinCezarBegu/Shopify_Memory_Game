@@ -3,6 +3,7 @@ package com.constantin.constaflux.data.repository
 import androidx.lifecycle.LiveData
 import com.example.shopify_memory_game.data.db.dao.ImageDao
 import com.example.shopify_memory_game.data.network.request.Image
+import com.example.shopify_memory_game.data.preference.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -10,7 +11,8 @@ import kotlinx.coroutines.withContext
 
 class Repository(
     private val imageDao: ImageDao,
-    private val dataSource: com.example.shopify_memory_game.data.network.DataSource
+    private val dataSource: com.example.shopify_memory_game.data.network.DataSource,
+    private val userData: UserData
 ) {
 
     init {
