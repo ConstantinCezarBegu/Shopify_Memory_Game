@@ -5,7 +5,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
 class UserData(context: Context) {
-    companion object{
+    companion object {
         const val USER_SCORE = "userScore"
         const val DEFAULT_USER_SCORE = 0
 

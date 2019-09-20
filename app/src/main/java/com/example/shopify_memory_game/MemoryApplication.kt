@@ -1,11 +1,11 @@
 package com.example.shopify_memory_game
 
 import android.app.Application
-import com.example.shopify_memory_game.data.repository.Repository
 import com.example.shopify_memory_game.data.db.MemoryDatabase
 import com.example.shopify_memory_game.data.network.ApiServiceProvider
 import com.example.shopify_memory_game.data.network.DataSource
 import com.example.shopify_memory_game.data.preference.UserData
+import com.example.shopify_memory_game.data.repository.Repository
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule

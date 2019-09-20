@@ -33,11 +33,16 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     private lateinit var lisAdapter: RecyclerViewAdapter
 
     override fun onNavigationItemSelected(itemId: Int) {
-        displayMarkAllDialog(itemId, this.mainAcivityConstraint, this.mainAcivityConstraint as ViewGroup)
+        displayMarkAllDialog(
+            itemId,
+            this.mainAcivityConstraint,
+            this.mainAcivityConstraint as ViewGroup
+        )
     }
 
-    override fun onRecyclerViewClickListener() {
-
+    override fun onRecyclerViewClickListener(imageData: RecyclerViewAdapter.ImageData) {
+        viewmodel.imagesRecyclerViewTracker.modifyList(imageData)
+        lisAdapter.notifyDataSetChanged()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +74,7 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         })
     }
 
-    private fun cardSelection(allImages: List<Image>): List<Image>{
+    private fun cardSelection(allImages: List<Image>): List<Image> {
         val selectedList = allImages.shuffled().take(10)
         return (selectedList + selectedList).shuffled()
     }
@@ -80,18 +85,21 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
 
         lisAdapter =
             RecyclerViewAdapter(
-                this
+                this,
+                viewmodel.imagesRecyclerViewTracker
             ).also(
                 mainActivityRecyclerView::setAdapter
             )
 
         mainActivityRecyclerView.layoutManager =
-            GridLayoutManager(this,
+            GridLayoutManager(
+                this,
                 when {
-                resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT -> 4
-                resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> 5
-                else -> 3
-            }, RecyclerView.VERTICAL, false)
+                    resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT -> 4
+                    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> 5
+                    else -> 3
+                }, RecyclerView.VERTICAL, false
+            )
     }
 
     private fun displayMarkAllDialog(

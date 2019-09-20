@@ -1,5 +1,6 @@
 package com.example.shopify_memory_game.adapters
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -13,8 +14,8 @@ import kotlinx.android.synthetic.main.list_item_card.view.*
 
 
 class RecyclerViewAdapter(
-    private val onRecyclerOnClickListener: OnRecyclerOnClickListener
-    // private val tracker: EntrySelectedTracker? = null
+    private val onRecyclerOnClickListener: OnRecyclerOnClickListener,
+    private val tracker: RecyclerViewSelectionImageTracker
 ) : ListAdapter<Image, RecyclerViewAdapter.ImageViewHolder>(
     diffCallback
 ) {
@@ -49,20 +50,35 @@ class RecyclerViewAdapter(
         itemView: View,
         private val onRecyclerOnClickListener: OnRecyclerOnClickListener
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+        private var imageData: ImageData ?= null
+
         override fun onClick(p0: View?) {
-            onRecyclerOnClickListener.onRecyclerViewClickListener()
+            if (!tracker.isCardFound(imageData!!) && !tracker.isCardSelected(imageData!!)) onRecyclerOnClickListener.onRecyclerViewClickListener(imageData!!)
         }
 
         fun bind(item: Image) {
+            imageData = ImageData(item.product_id, adapterPosition)
+            val isSelected = tracker.isCardSelected(imageData!!)
+            val isFound = tracker.isCardFound(imageData!!)
+
             Picasso.get()
                 .load(item.src)
                 .into(itemView.card_image)
+
+            itemView.card_image.visibility =
+                if (isSelected or isFound) View.VISIBLE else View.INVISIBLE
+
+            if (isSelected) itemView.isActivated = true
+
+
             itemView.setOnClickListener(this)
         }
     }
 
+    data class ImageData(val product_id: Long, val position: Int)
+
 
     interface OnRecyclerOnClickListener {
-        fun onRecyclerViewClickListener()
+        fun onRecyclerViewClickListener(imageData: ImageData)
     }
 }
