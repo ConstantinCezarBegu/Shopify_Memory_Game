@@ -1,8 +1,8 @@
 package com.example.shopify_memory_game.ui
 
 import android.app.AlertDialog
+import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.shopify_memory_game.R
-import com.example.shopify_memory_game.RecyclerViewAdapter
+import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
+import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.internal.ScopedActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.content_main_application.*
@@ -20,7 +21,6 @@ import kotlinx.android.synthetic.main.dialog_get_mode.view.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
-import org.kodein.di.generic.instance
 
 class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecyclerOnClickListener,
     BottomNavigationDrawerFragment.OnNavigationGestures {
@@ -28,7 +28,6 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     override val kodein by closestKodein()
 
     private val bottomNavDrawerFragment = BottomNavigationDrawerFragment(this)
-    private val viewModelFactory: MainActivityViewModelFactory by instance()
     private lateinit var viewmodel: MainActivityViewModel
 
     private lateinit var lisAdapter: RecyclerViewAdapter
@@ -66,8 +65,13 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     private fun setupUI() = launch {
         viewmodel.imageList.await().observe(this@MainActivity, Observer {
             progressBar.visibility = View.INVISIBLE
-            lisAdapter.submitList(it)
+            lisAdapter.submitList(cardSelection(it))
         })
+    }
+
+    private fun cardSelection(allImages: List<Image>): List<Image>{
+        val selectedList = allImages.shuffled().take(10)
+        return (selectedList + selectedList).shuffled()
     }
 
     private fun setUpRecyclerView() {
@@ -82,8 +86,14 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
             )
 
         mainActivityRecyclerView.layoutManager =
-            GridLayoutManager(this, RecyclerView.VERTICAL)
+            GridLayoutManager(this,
+                when {
+                resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT -> 4
+                resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> 5
+                else -> 3
+            }, RecyclerView.VERTICAL, false)
     }
+
     private fun displayMarkAllDialog(
         itemId: Int,
         view: View,

@@ -1,7 +1,7 @@
 package com.example.shopify_memory_game
 
 import android.app.Application
-import com.constantin.constaflux.data.repository.Repository
+import com.example.shopify_memory_game.data.repository.Repository
 import com.example.shopify_memory_game.data.db.MemoryDatabase
 import com.example.shopify_memory_game.data.network.ApiServiceProvider
 import com.example.shopify_memory_game.data.network.DataSource

@@ -1,4 +1,4 @@
-package com.constantin.constaflux.data.repository
+package com.example.shopify_memory_game.data.repository
 
 import androidx.lifecycle.LiveData
 import com.example.shopify_memory_game.data.db.dao.ImageDao

@@ -1,10 +1,11 @@
-package com.example.shopify_memory_game
+package com.example.shopify_memory_game.adapters
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shopify_memory_game.R
 import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.internal.inflate
 import com.squareup.picasso.Picasso
@@ -14,7 +15,9 @@ import kotlinx.android.synthetic.main.list_item_card.view.*
 class RecyclerViewAdapter(
     private val onRecyclerOnClickListener: OnRecyclerOnClickListener
     // private val tracker: EntrySelectedTracker? = null
-) : ListAdapter<Image, RecyclerViewAdapter.ImageViewHolder>(diffCallback) {
+) : ListAdapter<Image, RecyclerViewAdapter.ImageViewHolder>(
+    diffCallback
+) {
 
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Image>() {

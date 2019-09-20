@@ -1,6 +1,5 @@
 package com.example.shopify_memory_game.data.network
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.shopify_memory_game.data.network.request.Image
@@ -47,7 +46,6 @@ class DataSource(
             if (notifyError) error.postValue(HttpErrors.INTERNET_CONNECTION)
             false
         } catch (e: HttpException) {
-            Log.d("test", "HTTPEX")
             if (notifyError) when (e.code()) {
                 401 -> {
                     error.postValue(HttpErrors.AUTHENTICATION)
@@ -58,7 +56,6 @@ class DataSource(
             }
             false
         } catch (e: NullPointerException) {
-            Log.d("test", "NULLPOINTER")
             error.postValue(HttpErrors.SUCCESS)
             true
         }
