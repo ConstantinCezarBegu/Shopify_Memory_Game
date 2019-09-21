@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/grid_size_button"
-        android:icon="@drawable/ic_shuffle"
+        android:icon="@drawable/ic_grid_size"
         android:title="@string/adjust_grid_size"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/match_size_button"
-        android:icon="@drawable/ic_shuffle"
+        android:icon="@drawable/ic_select_size"
         android:title="@string/adjust_match_size"
         app:showAsAction="ifRoom" />
 
@@ -18,5 +18,11 @@
         android:id="@+id/shuffle_button"
         android:icon="@drawable/ic_shuffle"
         android:title="@string/shuffle"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/game_info"
+        android:icon="@drawable/ic_info"
+        android:title="@string/info"
         app:showAsAction="ifRoom" />
 </menu>
