@@ -4,4 +4,9 @@
     <string name="adjust_grid_size">Adjust grid size</string>
     <string name="adjust_match_size">Adjust match size</string>
     <string name="score">Score:</string>
+    <string name="winner">Winner</string>
+    <string name="winner_winner_chicken_dinner">Winner winner chicken dinner</string>
+    <string name="your_score">Your score:</string>
+    <string name="_0">0</string>
+    <string name="high_score">High Score:</string>
 </resources>

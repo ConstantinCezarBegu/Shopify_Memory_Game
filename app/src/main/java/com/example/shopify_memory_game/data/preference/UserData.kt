@@ -14,6 +14,9 @@ class UserData(context: Context) {
 
         const val MATCH_SIZE = "matchSize"
         const val DEFAULT_MATCH_SIZE = 2
+
+        const val HIGH_SCORE = "highScore"
+        const val DEFAULT_HIGH_SCORE = 0
     }
 
     private val encryptedSharedPreferences = EncryptedSharedPreferences.create(
@@ -60,6 +63,19 @@ class UserData(context: Context) {
             return encryptedSharedPreferences.getInt(
                 MATCH_SIZE,
                 DEFAULT_MATCH_SIZE
+            )
+        }
+
+    var highScore: Int
+        set(value) {
+            val sharedPrefsEditor = encryptedSharedPreferences.edit()
+            sharedPrefsEditor.putInt(HIGH_SCORE, value)
+            sharedPrefsEditor.apply()
+        }
+        get() {
+            return encryptedSharedPreferences.getInt(
+                HIGH_SCORE,
+                DEFAULT_HIGH_SCORE
             )
         }
 

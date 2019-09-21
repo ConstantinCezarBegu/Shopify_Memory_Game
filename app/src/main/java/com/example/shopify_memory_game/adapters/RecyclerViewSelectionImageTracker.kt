@@ -33,20 +33,20 @@ class RecyclerViewSelectionImageTracker(
 
     fun modifyList(item: RecyclerViewAdapter.ImageData) {
         _cardsSelected.add(item)
-        if (_cardsSelected.size == matchSize) {
-            if (areCardsTheSame()) {
+
+        if (areCardsTheSame()) {
+            if (_cardsSelected.size == matchSize) {
                 _cardsMatched.addAll(_cardsSelected)
                 matchFunction()
-                _cardsSelected.clear()
-            } else {
-                noMatchFunction()
             }
+            _cardsSelected.clear()
         } else {
-            if (!areCardsTheSame()) noMatchFunction()
+            noMatchFunction()
         }
+
     }
 
-    fun areCardsTheSame(): Boolean {
+    private fun areCardsTheSame(): Boolean {
         val cardToMatch = _cardsSelected[0].product_id
         for (i in 0 until _cardsSelected.size) {
             if (_cardsSelected[i].product_id != cardToMatch) return false
