@@ -28,8 +28,8 @@
 
             <ImageView
                 android:id="@+id/card_image"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:elevation="1dp"
                 android:visibility="visible"
                 app:layout_constraintDimensionRatio="1:1"
@@ -46,7 +46,6 @@
                 android:maxLines="2"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/card_image" />
