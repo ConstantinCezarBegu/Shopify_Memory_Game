@@ -3,7 +3,6 @@ package com.example.shopify_memory_game.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.get
@@ -117,11 +116,15 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         })
     }
 
-    private fun setupErrorHandling(){
+    private fun setupErrorHandling() {
         viewmodel.errorLiveData.removeObservers(this)
         viewmodel.errorLiveData.observe(this, Observer {
-           if (it != DataSource.HttpErrors.SUCCESS){
-                Snackbar.make(this@MainActivity.activity_host_coordinator_layout, "Connection error", Snackbar.LENGTH_SHORT).run {
+            if (it != DataSource.HttpErrors.SUCCESS) {
+                Snackbar.make(
+                    this@MainActivity.activity_host_coordinator_layout,
+                    "Connection error",
+                    Snackbar.LENGTH_SHORT
+                ).run {
                     anchorView = this@MainActivity.findViewById(R.id.bottomAppBar)
                     show()
                 }

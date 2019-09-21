@@ -137,9 +137,9 @@ class BottomNavigationDrawerFragment :
         mBuilder.setView(mView)
         val dialog: AlertDialog = mBuilder.create()
 
-       mView.promptAcceptInfo.setOnClickListener {
-           dialog.dismiss()
-       }
+        mView.promptAcceptInfo.setOnClickListener {
+            dialog.dismiss()
+        }
 
         dialog.show()
     }
