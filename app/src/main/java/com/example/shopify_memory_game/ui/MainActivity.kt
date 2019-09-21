@@ -3,6 +3,7 @@ package com.example.shopify_memory_game.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.get
@@ -57,6 +58,8 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         viewmodel =
             ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
+        Log.d("test", "${viewmodel.imagesRecyclerViewTracker.cardsMatched.toString()}")
+
         bottomAppBar.menu[0].setOnMenuItemClickListener {
             restartActivity()
             true
@@ -79,19 +82,10 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     private fun setupUI() = launch {
         viewmodel.imageList.await().observe(this@MainActivity, Observer {
             progressBar.visibility = View.INVISIBLE
-            lisAdapter.submitList(cardSelection(it))
+            lisAdapter.submitList(it)
         })
     }
 
-    private fun cardSelection(allImages: List<Image>): List<Image> {
-        val selectedList =
-            allImages.shuffled().take((20 + viewmodel.gridSize * 20) / viewmodel.matchSize)
-        var finalList = listOf<Image>()
-        for (i in 1..viewmodel.matchSize) {
-            finalList = finalList + selectedList
-        }
-        return (finalList).shuffled()
-    }
 
     private fun setUpRecyclerView() {
         (mainActivityRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =

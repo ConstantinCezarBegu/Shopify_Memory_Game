@@ -9,7 +9,7 @@ import com.example.shopify_memory_game.internal.productIds
 interface ImageDao {
 
     @Query("SELECT * FROM memory_image")
-    fun getImages(): LiveData<List<Image>>
+    fun getImages(): List<Image>
 
     @Transaction
     suspend fun insertAll(imageList: List<Image>) {

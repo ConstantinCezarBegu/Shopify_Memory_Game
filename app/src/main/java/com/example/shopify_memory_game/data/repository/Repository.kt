@@ -23,7 +23,7 @@ class Repository(
 
     val errorLiveData = dataSource.error
 
-    suspend fun getImages(): LiveData<List<Image>> {
+    suspend fun getImages(): List<Image> {
         fetchImages()
         return withContext(Dispatchers.IO) {
             return@withContext imageDao.getImages()

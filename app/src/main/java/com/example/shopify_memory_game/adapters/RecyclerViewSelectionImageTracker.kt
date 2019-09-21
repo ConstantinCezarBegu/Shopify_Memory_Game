@@ -1,5 +1,7 @@
 package com.example.shopify_memory_game.adapters
 
+import android.util.Log
+
 class RecyclerViewSelectionImageTracker(
     private val matchSize: Int,
     private val matchFunction: () -> Unit,
@@ -32,6 +34,9 @@ class RecyclerViewSelectionImageTracker(
     }
 
     fun modifyList(item: RecyclerViewAdapter.ImageData) {
+        Log.d("test", "select: " + _cardsSelected.toString())
+        Log.d("test", "match: " + _cardsMatched.toString())
+
         _cardsSelected.add(item)
 
         if (areCardsTheSame()) {
