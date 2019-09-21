@@ -14,10 +14,13 @@ import org.kodein.di.generic.instance
 
 class MainActivityViewModelFactory(
     private val context: Context,
+    private val noMatchFunction: ()-> Unit,
 
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
-) : AbstractSavedStateViewModelFactory(owner, defaultArgs), KodeinAware {
+) : AbstractSavedStateViewModelFactory( owner, defaultArgs), KodeinAware
+{
+
     override val kodein by closestKodein(context)
     private val repository: Repository by instance()
     private val userData: UserData by instance()
@@ -28,6 +31,6 @@ class MainActivityViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return MainActivityViewModel(repository, userData, handle) as T
+        return MainActivityViewModel(repository, userData, noMatchFunction ,handle) as T
     }
 }

@@ -3,9 +3,12 @@ package com.example.shopify_memory_game.ui
 import android.app.AlertDialog
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -26,9 +29,9 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     BottomNavigationDrawerFragment.OnNavigationGestures {
 
     override val kodein by closestKodein()
-
-    private val bottomNavDrawerFragment = BottomNavigationDrawerFragment(this)
     private lateinit var viewmodel: MainActivityViewModel
+    private val bottomNavDrawerFragment = BottomNavigationDrawerFragment(this)
+
 
     private lateinit var lisAdapter: RecyclerViewAdapter
 
@@ -49,9 +52,19 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
 
+
+        val viewModelFactory: AbstractSavedStateViewModelFactory =
+            MainActivityViewModelFactory(this, {
+                activityFunctionality(false)
+                Handler().postDelayed({
+                    viewmodel.imagesRecyclerViewTracker.clearSelected()
+                    activityFunctionality(true)
+                    lisAdapter.notifyDataSetChanged()
+                }, 500)
+            }, this)
         viewmodel =
-            ViewModelProviders.of(this, MainActivityViewModelFactory(this.applicationContext, this))
-                .get(MainActivityViewModel::class.java)
+            ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
+
 
         setUpToolBar()
         setUpRecyclerView()
@@ -97,9 +110,23 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
                 when {
                     resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT -> 4
                     resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> 5
-                    else -> 3
+                    else -> 4
                 }, RecyclerView.VERTICAL, false
             )
+    }
+
+    private fun activityFunctionality(isEnabled: Boolean) {
+        bottomNavDrawerFragment.isEnabled = isEnabled
+        if (isEnabled) {
+            this.window.clearFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+        } else {
+            this.window.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+        }
     }
 
     private fun displayMarkAllDialog(

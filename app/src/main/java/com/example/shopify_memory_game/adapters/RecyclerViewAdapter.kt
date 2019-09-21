@@ -1,6 +1,5 @@
 package com.example.shopify_memory_game.adapters
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -50,10 +49,12 @@ class RecyclerViewAdapter(
         itemView: View,
         private val onRecyclerOnClickListener: OnRecyclerOnClickListener
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        private var imageData: ImageData ?= null
+        private var imageData: ImageData? = null
 
         override fun onClick(p0: View?) {
-            if (!tracker.isCardFound(imageData!!) && !tracker.isCardSelected(imageData!!)) onRecyclerOnClickListener.onRecyclerViewClickListener(imageData!!)
+            if (!tracker.isCardFound(imageData!!) && !tracker.isCardSelected(imageData!!)) onRecyclerOnClickListener.onRecyclerViewClickListener(
+                imageData!!
+            )
         }
 
         fun bind(item: Image) {
@@ -68,7 +69,7 @@ class RecyclerViewAdapter(
             itemView.card_image.visibility =
                 if (isSelected or isFound) View.VISIBLE else View.INVISIBLE
 
-            if (isSelected) itemView.isActivated = true
+             itemView.isActivated = isSelected
 
 
             itemView.setOnClickListener(this)

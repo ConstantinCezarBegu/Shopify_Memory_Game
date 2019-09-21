@@ -17,6 +17,7 @@ class BottomNavigationDrawerFragment(private val onNavigationGestures: OnNavigat
     BottomSheetDialogFragment(), KodeinAware {
     override val kodein by closestKodein()
     val userData: UserData by instance()
+    var isEnabled = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +38,7 @@ class BottomNavigationDrawerFragment(private val onNavigationGestures: OnNavigat
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
-        if (isVisible.not()) {
+        if (isEnabled && isVisible.not()) {
             super.show(manager, tag)
         }
     }
