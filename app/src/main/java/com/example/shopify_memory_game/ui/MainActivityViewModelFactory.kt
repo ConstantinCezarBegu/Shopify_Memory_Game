@@ -14,7 +14,6 @@ import org.kodein.di.generic.instance
 
 class MainActivityViewModelFactory(
     private val context: Context,
-    private val noMatchFunction: () -> Unit,
 
     owner: SavedStateRegistryOwner,
     defaultArgs: Bundle? = null
@@ -30,6 +29,6 @@ class MainActivityViewModelFactory(
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return MainActivityViewModel(repository, userData, noMatchFunction, handle) as T
+        return MainActivityViewModel(repository, userData, handle) as T
     }
 }

@@ -3,7 +3,6 @@ package com.example.shopify_memory_game.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.get
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.shopify_memory_game.R
 import com.example.shopify_memory_game.adapters.GridLayoutWrapper
 import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
-import com.example.shopify_memory_game.data.network.request.Image
+import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracker
 import com.example.shopify_memory_game.internal.ScopedActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_host.*
@@ -36,9 +35,31 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
 
 
     override fun onRecyclerViewClickListener(imageData: RecyclerViewAdapter.ImageData) {
-        viewmodel.imagesRecyclerViewTracker.modifyList(imageData)
-        lisAdapter.notifyDataSetChanged()
-        if(viewmodel.imagesRecyclerViewTracker.cardsMatched.size == lisAdapter.itemCount) HighScoreDialog.newInstance().show(supportFragmentManager, null)
+        when (viewmodel.imagesRecyclerViewTracker.modifyList(imageData)) {
+            RecyclerViewSelectionImageTracker.CardsSelectionResponse.Add -> {
+                lisAdapter.notifyItemChanged(imageData.position)
+            }
+            RecyclerViewSelectionImageTracker.CardsSelectionResponse.Match -> {
+                activityFunctionality(false)
+                viewmodel.userScore += 10
+                lisAdapter.notifyDataSetChanged()
+                activityFunctionality(true)
+            }
+            RecyclerViewSelectionImageTracker.CardsSelectionResponse.NoMatch -> {
+                activityFunctionality(false)
+                lisAdapter.notifyItemChanged(imageData.position)
+                viewmodel.userScore -= 2
+                Handler().postDelayed({
+                    viewmodel.imagesRecyclerViewTracker.clearSelected()
+                    lisAdapter.notifyDataSetChanged()
+                    activityFunctionality(true)
+                }, 500)
+            }
+        }
+        if (viewmodel.imagesRecyclerViewTracker.cardsMatched.size == lisAdapter.itemCount) HighScoreDialog.newInstance().show(
+            supportFragmentManager,
+            null
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,19 +67,13 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         setContentView(R.layout.activity_host)
 
         val viewModelFactory: AbstractSavedStateViewModelFactory =
-            MainActivityViewModelFactory(this, {
-                activityFunctionality(false)
-                Handler().postDelayed({
-                    viewmodel.imagesRecyclerViewTracker.clearSelected()
-                    activityFunctionality(true)
-                    lisAdapter.notifyDataSetChanged()
-                }, 500)
-            }, this)
+            MainActivityViewModelFactory(
+                this,
+                this
+            )
 
         viewmodel =
             ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
-
-        Log.d("test", "${viewmodel.imagesRecyclerViewTracker.cardsMatched.toString()}")
 
         bottomAppBar.menu[0].setOnMenuItemClickListener {
             restartActivity()

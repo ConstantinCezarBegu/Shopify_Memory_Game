@@ -12,20 +12,25 @@ import com.example.shopify_memory_game.internal.lazyDeferred
 class MainActivityViewModel(
     private val repository: Repository,
     private val userData: com.example.shopify_memory_game.data.preference.UserData,
-    private val noMatchFunction: () -> Unit,
     private val handle: SavedStateHandle
 ) : ViewModel() {
 
     val imagesRecyclerViewTracker = RecyclerViewSelectionImageTracker(
-        userData.matchSize,
-        { userData.userScore += 10 },
-        noMatchFunction
+        userData.matchSize
     )
 
     val imageList by lazyDeferred {
         userData.userScore = 0
         MutableLiveData(cardSelection(repository.getImages()))
     }
+
+    var userScore: Int
+        set(value) {
+            userData.userScore = value
+        }
+        get() {
+            return userData.userScore
+        }
 
     var gridSize: Int
         set(value) {
