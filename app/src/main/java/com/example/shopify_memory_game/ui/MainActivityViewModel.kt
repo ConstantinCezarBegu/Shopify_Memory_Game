@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracker
+import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.data.repository.Repository
 import com.example.shopify_memory_game.internal.lazyDeferred
@@ -49,10 +50,10 @@ class MainActivityViewModel(
             return userData.matchSize
         }
 
-    private fun cardSelection(allImages: List<Image>): List<Image> {
+    private fun cardSelection(allCards: List<Card>): List<Card> {
         val selectedList =
-            allImages.shuffled().take((20 + gridSize * 20) / matchSize)
-        var finalList = listOf<Image>()
+            allCards.shuffled().take((20 + gridSize * 20) / matchSize)
+        var finalList = listOf<Card>()
         for (i in 1..matchSize) {
             finalList = finalList + selectedList
         }

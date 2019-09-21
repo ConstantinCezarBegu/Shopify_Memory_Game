@@ -7,8 +7,8 @@ import androidx.annotation.LayoutRes
 import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.data.network.request.Image
 
-val List<Image>.productIds: List<Long>
-    get() = map(Image::product_id)
+val List<Card>.productIds: List<Long>
+    get() = map(Card::id)
 
 
 fun List<Card>.getImages(): List<Image> {

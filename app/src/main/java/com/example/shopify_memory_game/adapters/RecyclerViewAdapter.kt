@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shopify_memory_game.R
-import com.example.shopify_memory_game.data.network.request.Image
+import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.internal.inflate
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item_card.view.*
@@ -15,17 +15,17 @@ import kotlinx.android.synthetic.main.list_item_card.view.*
 class RecyclerViewAdapter(
     private val onRecyclerOnClickListener: OnRecyclerOnClickListener,
     private val tracker: RecyclerViewSelectionImageTracker
-) : ListAdapter<Image, RecyclerViewAdapter.ImageViewHolder>(
+) : ListAdapter<Card, RecyclerViewAdapter.ImageViewHolder>(
     diffCallback
 ) {
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<Image>() {
-            override fun areItemsTheSame(oldItem: Image, newItem: Image): Boolean {
-                return oldItem.product_id == newItem.product_id
+        private val diffCallback = object : DiffUtil.ItemCallback<Card>() {
+            override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean {
+                return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Image, newItem: Image): Boolean {
+            override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean {
                 return oldItem == newItem
             }
         }
@@ -58,17 +58,21 @@ class RecyclerViewAdapter(
             )
         }
 
-        fun bind(item: Image) {
-            imageData = ImageData(item.product_id, adapterPosition)
+        fun bind(item: Card) {
+            imageData = ImageData(item.id, adapterPosition)
             val isSelected = tracker.isCardSelected(imageData!!)
             val isFound = tracker.isCardFound(imageData!!)
 
             Picasso.get()
-                .load(item.src)
+                .load(item.image.src)
                 .into(itemView.card_image)
 
-            itemView.card_image.visibility =
-                if (isSelected or isFound) View.VISIBLE else View.INVISIBLE
+            itemView.card_title.text = item.title
+
+            val visibility = if (isSelected or isFound) View.VISIBLE else View.INVISIBLE
+            itemView.card_title.visibility = visibility
+            itemView.card_image.visibility = visibility
+
 
             itemView.isActivated = isSelected
 

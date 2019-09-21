@@ -2,6 +2,7 @@ package com.example.shopify_memory_game.data.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.internal.getImages
 import retrofit2.HttpException
@@ -19,20 +20,20 @@ class DataSource(
         HTTP_ERROR
     }
 
-    private val _downloadedImages = MutableLiveData<List<Image>>()
-    val downloadedImages: LiveData<List<Image>>
-        get() = _downloadedImages
+    private val _downloadedCards = MutableLiveData<List<Card>>()
+    val downloadedCards: LiveData<List<Card>>
+        get() = _downloadedCards
 
 
     suspend fun fetchImages(clear: Boolean) {
         errorHandling(clear) {
-            val fetchedImages = apiServiceProvider.getCards().cards.getImages()
+            val fetchedImages = apiServiceProvider.getCards().cards
 
             if (fetchedImages.isNullOrEmpty() && clear) {
                 error.postValue(HttpErrors.SUCCESS)
             }
 
-            _downloadedImages.postValue(
+            _downloadedCards.postValue(
                 fetchedImages
             )
         }

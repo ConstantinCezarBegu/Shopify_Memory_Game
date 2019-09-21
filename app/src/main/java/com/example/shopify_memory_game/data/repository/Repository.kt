@@ -1,7 +1,7 @@
 package com.example.shopify_memory_game.data.repository
 
-import com.example.shopify_memory_game.data.db.dao.ImageDao
-import com.example.shopify_memory_game.data.network.request.Image
+import com.example.shopify_memory_game.data.db.dao.CardDao
+import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.data.preference.UserData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -9,23 +9,23 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Repository(
-    private val imageDao: ImageDao,
+    private val cardDao: CardDao,
     private val dataSource: com.example.shopify_memory_game.data.network.DataSource,
     private val userData: UserData
 ) {
 
     init {
-        dataSource.downloadedImages.observeForever { cardsImageResponse ->
-            persistFetchedImages(cardsImageResponse)
+        dataSource.downloadedCards.observeForever { cardsResponse ->
+            persistFetchedImages(cardsResponse)
         }
     }
 
     val errorLiveData = dataSource.error
 
-    suspend fun getImages(): List<Image> {
+    suspend fun getImages(): List<Card> {
         fetchImages()
         return withContext(Dispatchers.IO) {
-            return@withContext imageDao.getImages()
+            return@withContext cardDao.getCards()
         }
     }
 
@@ -34,9 +34,9 @@ class Repository(
     }
 
 
-    private fun persistFetchedImages(fetchedCategories: List<Image>) {
+    private fun persistFetchedImages(fetchedCategories: List<Card>) {
         GlobalScope.launch(Dispatchers.IO) {
-            imageDao.insertAll(fetchedCategories)
+            cardDao.insertAll(fetchedCategories)
         }
     }
 
