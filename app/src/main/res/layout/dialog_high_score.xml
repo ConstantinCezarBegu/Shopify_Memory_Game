@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/fullscreen_dialog_feed_close"
+                android:id="@+id/fullscreen_dialog_close"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/feedDialogTitle"
+                android:id="@+id/dialogTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -43,9 +43,9 @@
                 android:text="@string/winner"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/fullscreen_dialog_feed_close"
-                app:layout_constraintStart_toEndOf="@+id/fullscreen_dialog_feed_close"
-                app:layout_constraintTop_toTopOf="@+id/fullscreen_dialog_feed_close" />
+                app:layout_constraintBottom_toBottomOf="@+id/fullscreen_dialog_close"
+                app:layout_constraintStart_toEndOf="@+id/fullscreen_dialog_close"
+                app:layout_constraintTop_toTopOf="@+id/fullscreen_dialog_close" />
 
 
 

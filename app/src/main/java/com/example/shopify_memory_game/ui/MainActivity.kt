@@ -3,14 +3,12 @@ package com.example.shopify_memory_game.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.get
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.shopify_memory_game.R
@@ -39,7 +37,7 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     override fun onRecyclerViewClickListener(imageData: RecyclerViewAdapter.ImageData) {
         viewmodel.imagesRecyclerViewTracker.modifyList(imageData)
         lisAdapter.notifyDataSetChanged()
-        if(viewmodel.imagesRecyclerViewTracker.cardsMatched.size == lisAdapter.itemCount) Log.d("test", "works")
+        if(viewmodel.imagesRecyclerViewTracker.cardsMatched.size == lisAdapter.itemCount) HighScoreDialog.newInstance().show(supportFragmentManager, null)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

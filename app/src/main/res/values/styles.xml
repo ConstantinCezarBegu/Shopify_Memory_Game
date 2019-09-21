@@ -14,5 +14,10 @@
         <item>6x10</item>
     </string-array>
 
+    <style name="FullScreenDialog" parent="Theme.MaterialComponents.DialogWhenLarge">
+        <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
 </resources>

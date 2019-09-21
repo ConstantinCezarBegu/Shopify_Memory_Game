@@ -37,9 +37,9 @@ class RecyclerViewSelectionImageTracker(
         if (areCardsTheSame()) {
             if (_cardsSelected.size == matchSize) {
                 _cardsMatched.addAll(_cardsSelected)
+                _cardsSelected.clear()
                 matchFunction()
             }
-            _cardsSelected.clear()
         } else {
             noMatchFunction()
         }
