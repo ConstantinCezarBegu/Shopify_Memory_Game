@@ -1,14 +1,10 @@
 package com.example.shopify_memory_game.ui
 
-import android.app.AlertDialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ArrayAdapter
 import androidx.core.view.get
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
@@ -23,37 +19,20 @@ import com.example.shopify_memory_game.internal.ScopedActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_host.*
 import kotlinx.android.synthetic.main.content_main_application.*
-import kotlinx.android.synthetic.main.dialog_get_mode.view.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 
 
-class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecyclerOnClickListener,
-    BottomNavigationDrawerFragment.OnNavigationGestures {
+class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecyclerOnClickListener {
 
     override val kodein by closestKodein()
     private lateinit var viewmodel: MainActivityViewModel
-    private val bottomNavDrawerFragment = BottomNavigationDrawerFragment(this)
+    private val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
 
 
     private lateinit var lisAdapter: RecyclerViewAdapter
 
-    override fun onNavigationItemSelected(itemId: Int) {
-
-        when (itemId) {
-            R.id.grid_size_button, R.id.match_size_button -> {
-                displayMarkAllDialog(
-                    itemId,
-                    this.mainAcivityConstraint,
-                    this.mainAcivityConstraint as ViewGroup
-                )
-            }
-            R.id.shuffle_button -> {
-                restartActivity()
-            }
-        }
-    }
 
     override fun onRecyclerViewClickListener(imageData: RecyclerViewAdapter.ImageData) {
         viewmodel.imagesRecyclerViewTracker.modifyList(imageData)
@@ -137,7 +116,7 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
             )
     }
 
-    private fun restartActivity() {
+    fun restartActivity() {
         val intent = intent
         finish()
         startActivity(intent)
@@ -157,58 +136,5 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         }
     }
 
-    private fun displayMarkAllDialog(
-        itemId: Int,
-        view: View,
-        parent: ViewGroup
-    ) {
-        val mBuilder: AlertDialog.Builder = AlertDialog.Builder(view.context)
-        val mView: View = LayoutInflater.from(view.context)
-            .inflate(R.layout.dialog_get_mode, parent, false)
-        mBuilder.setView(mView)
-        val dialog: AlertDialog = mBuilder.create()
 
-        val matchSizeList = listOf(2, 4, 5)
-
-        mView.headerText.text =
-            if (itemId == R.id.grid_size_button) "Adjust grid size" else "Adjust match size"
-
-        mView.spinnerSelection
-
-        mView.promtCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-
-        val spinnerArrayAdapter = if (itemId == R.id.grid_size_button)
-            ArrayAdapter.createFromResource(
-                this,
-                R.array.grid_size,
-                android.R.layout.simple_spinner_item
-            )
-        else ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            matchSizeList
-        )
-
-
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        mView.spinnerSelection.adapter = spinnerArrayAdapter
-        mView.spinnerSelection.setSelection(
-            if (itemId == R.id.grid_size_button) viewmodel.gridSize else matchSizeList.indexOf(
-                viewmodel.matchSize
-            )
-        )
-
-        mView.promptAccept.setOnClickListener {
-            if (itemId == R.id.grid_size_button) viewmodel.gridSize =
-                mView.spinnerSelection.selectedItemPosition else viewmodel.matchSize =
-                matchSizeList[mView.spinnerSelection.selectedItemPosition]
-            dialog.dismiss()
-            restartActivity()
-        }
-
-        dialog.show()
-    }
 }
