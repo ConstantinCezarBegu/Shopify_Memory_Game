@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracker
 import com.example.shopify_memory_game.data.network.request.Card
-import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.data.repository.Repository
 import com.example.shopify_memory_game.internal.lazyDeferred
 

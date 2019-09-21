@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.shopify_memory_game.data.db.dao.CardDao
 import com.example.shopify_memory_game.data.network.request.Card
-import com.example.shopify_memory_game.data.network.request.Image
 
 @Database(
     entities = [Card::class],

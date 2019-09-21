@@ -3,8 +3,6 @@ package com.example.shopify_memory_game.data.network
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.shopify_memory_game.data.network.request.Card
-import com.example.shopify_memory_game.data.network.request.Image
-import com.example.shopify_memory_game.internal.getImages
 import retrofit2.HttpException
 import java.io.IOException
 
