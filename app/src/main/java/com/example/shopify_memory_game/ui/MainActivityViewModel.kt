@@ -22,5 +22,21 @@ class MainActivityViewModel(
         repository.getImages()
     }
 
+    var gridSize: Int
+        set(value) {
+            userData.gridSize = value
+        }
+        get() {
+            return userData.gridSize
+        }
+
+    var matchSize: Int
+        set(value) {
+            userData.matchSize = value
+        }
+        get() {
+            return userData.matchSize
+        }
+
 
 }

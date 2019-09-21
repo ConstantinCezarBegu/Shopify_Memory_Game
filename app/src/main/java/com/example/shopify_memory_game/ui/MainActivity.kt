@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ArrayAdapter
+import androidx.core.view.get
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,11 +21,13 @@ import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
 import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.internal.ScopedActivity
 import com.google.android.material.bottomappbar.BottomAppBar
+import kotlinx.android.synthetic.main.activity_host.*
 import kotlinx.android.synthetic.main.content_main_application.*
 import kotlinx.android.synthetic.main.dialog_get_mode.view.*
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
+
 
 class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecyclerOnClickListener,
     BottomNavigationDrawerFragment.OnNavigationGestures {
@@ -36,11 +40,20 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     private lateinit var lisAdapter: RecyclerViewAdapter
 
     override fun onNavigationItemSelected(itemId: Int) {
-        displayMarkAllDialog(
-            itemId,
-            this.mainAcivityConstraint,
-            this.mainAcivityConstraint as ViewGroup
-        )
+
+        when (itemId) {
+            R.id.grid_size_button, R.id.match_size_button -> {
+                displayMarkAllDialog(
+                    itemId,
+                    this.mainAcivityConstraint,
+                    this.mainAcivityConstraint as ViewGroup
+                )
+            }
+            R.id.shuffle_button -> {
+                restartActivity()
+            }
+        }
+
     }
 
     override fun onRecyclerViewClickListener(imageData: RecyclerViewAdapter.ImageData) {
@@ -52,7 +65,6 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
 
-
         val viewModelFactory: AbstractSavedStateViewModelFactory =
             MainActivityViewModelFactory(this, {
                 activityFunctionality(false)
@@ -62,9 +74,14 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
                     lisAdapter.notifyDataSetChanged()
                 }, 500)
             }, this)
+
         viewmodel =
             ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
+        bottomAppBar.menu[0].setOnMenuItemClickListener {
+            restartActivity()
+            true
+        }
 
         setUpToolBar()
         setUpRecyclerView()
@@ -115,6 +132,12 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
             )
     }
 
+    private fun restartActivity() {
+        val intent = intent
+        finish()
+        startActivity(intent)
+    }
+
     private fun activityFunctionality(isEnabled: Boolean) {
         bottomNavDrawerFragment.isEnabled = isEnabled
         if (isEnabled) {
@@ -140,19 +163,45 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         mBuilder.setView(mView)
         val dialog: AlertDialog = mBuilder.create()
 
-        mView.headerText.text = itemId.toString()
-        mView.promptBodyText.text = ""
+        val matchSizeList = listOf(2, 4, 5)
+
+        mView.headerText.text =
+            if (itemId == R.id.grid_size_button) "Adjust grid size" else "Adjust match size"
+
+        mView.spinnerSelection
 
         mView.promtCancel.setOnClickListener {
             dialog.dismiss()
         }
 
+
+        val spinnerArrayAdapter = if (itemId == R.id.grid_size_button)
+            ArrayAdapter.createFromResource(
+                this,
+                R.array.grid_size,
+                android.R.layout.simple_spinner_item
+            )
+        else ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            matchSizeList
+        )
+
+
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mView.spinnerSelection.adapter = spinnerArrayAdapter
+        mView.spinnerSelection.setSelection(
+            if (itemId == R.id.grid_size_button) viewmodel.gridSize else matchSizeList.indexOf(
+                viewmodel.matchSize
+            )
+        )
+
         mView.promptAccept.setOnClickListener {
+            if (itemId == R.id.grid_size_button) viewmodel.gridSize =
+                mView.spinnerSelection.selectedItemPosition else viewmodel.matchSize =
+                matchSizeList[mView.spinnerSelection.selectedItemPosition]
             dialog.dismiss()
-        }
-
-        dialog.setOnDismissListener {
-
+            restartActivity()
         }
 
         dialog.show()

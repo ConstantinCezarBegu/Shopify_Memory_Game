@@ -13,23 +13,9 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:text="@android:string/selectTextMode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/promptBodyText"
-        style="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:text="Selection:"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/spinner2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerText" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/promptAccept"
@@ -40,9 +26,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="4dp"
         android:text="@android:string/ok"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/promptBodyText" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSelection" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/promtCancel"
@@ -52,14 +39,18 @@
         android:layout_marginEnd="8dp"
         android:text="@android:string/cancel"
         app:layout_constraintEnd_toStartOf="@+id/promptAccept"
+        android:textColor="@color/colorAccent"
         app:layout_constraintTop_toTopOf="@+id/promptAccept" />
 
     <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="wrap_content"
+        android:id="@+id/spinnerSelection"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/promptBodyText"
-        app:layout_constraintTop_toTopOf="@+id/promptBodyText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

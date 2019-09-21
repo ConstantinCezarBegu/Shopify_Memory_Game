@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <string-array name="grid_size">
+        <item>4x5</item>
+        <item>5x8</item>
+        <item>6x10</item>
+    </string-array>
+
+
 </resources>

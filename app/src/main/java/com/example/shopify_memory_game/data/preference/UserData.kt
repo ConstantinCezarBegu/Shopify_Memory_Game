@@ -10,7 +10,7 @@ class UserData(context: Context) {
         const val DEFAULT_USER_SCORE = 0
 
         const val GRID_SIZE = "gridSize"
-        const val DEFAULT_GRID_SIZE = 3
+        const val DEFAULT_GRID_SIZE = 0
 
         const val MATCH_SIZE = "matchSize"
         const val DEFAULT_MATCH_SIZE = 2
