@@ -69,7 +69,7 @@ class RecyclerViewAdapter(
             itemView.card_image.visibility =
                 if (isSelected or isFound) View.VISIBLE else View.INVISIBLE
 
-             itemView.isActivated = isSelected
+            itemView.isActivated = isSelected
 
 
             itemView.setOnClickListener(this)

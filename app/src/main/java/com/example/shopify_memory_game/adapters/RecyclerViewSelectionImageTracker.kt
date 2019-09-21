@@ -1,8 +1,10 @@
 package com.example.shopify_memory_game.adapters
 
-import android.util.Log
-
-class RecyclerViewSelectionImageTracker(private val  matchSize: Int, private val matchFunction: () -> Unit, private val noMatchFunction: () -> Unit) {
+class RecyclerViewSelectionImageTracker(
+    private val matchSize: Int,
+    private val matchFunction: () -> Unit,
+    private val noMatchFunction: () -> Unit
+) {
 
     private val _cardsMatched: MutableList<RecyclerViewAdapter.ImageData> = mutableListOf()
     val cardsMatched: List<RecyclerViewAdapter.ImageData>
@@ -24,7 +26,8 @@ class RecyclerViewSelectionImageTracker(private val  matchSize: Int, private val
     fun isCardSelected(item: RecyclerViewAdapter.ImageData): Boolean {
         return item in _cardsSelected
     }
-    fun clearSelected(){
+
+    fun clearSelected() {
         _cardsSelected.clear()
     }
 
@@ -43,9 +46,9 @@ class RecyclerViewSelectionImageTracker(private val  matchSize: Int, private val
         }
     }
 
-    fun areCardsTheSame():Boolean{
+    fun areCardsTheSame(): Boolean {
         val cardToMatch = _cardsSelected[0].product_id
-        for (i in 0 until _cardsSelected.size){
+        for (i in 0 until _cardsSelected.size) {
             if (_cardsSelected[i].product_id != cardToMatch) return false
         }
         return true
