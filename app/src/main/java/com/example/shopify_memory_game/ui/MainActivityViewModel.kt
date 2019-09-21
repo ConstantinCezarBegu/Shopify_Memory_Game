@@ -13,9 +13,11 @@ class MainActivityViewModel(
     private val handle: SavedStateHandle
 ) : ViewModel() {
 
-    val imagesRecyclerViewTracker = RecyclerViewSelectionImageTracker({
-        userData.userScore += 10
-    }, noMatchFunction)
+    val imagesRecyclerViewTracker = RecyclerViewSelectionImageTracker(
+        userData.matchSize,
+        { userData.userScore += 10 },
+        noMatchFunction
+    )
 
     val imageList by lazyDeferred {
         userData.userScore = 0

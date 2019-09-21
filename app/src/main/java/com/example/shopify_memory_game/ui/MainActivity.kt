@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,8 +105,12 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     }
 
     private fun cardSelection(allImages: List<Image>): List<Image> {
-        val selectedList = allImages.shuffled().take((20 + viewmodel.gridSize * 20) / 2)
-        return (selectedList + selectedList).shuffled()
+        val selectedList = allImages.shuffled().take((20 + viewmodel.gridSize * 20) / viewmodel.matchSize)
+        var finalList = listOf<Image>()
+        for (i in 1..viewmodel.matchSize) {
+            finalList = finalList + selectedList
+        }
+        return (finalList).shuffled()
     }
 
     private fun setUpRecyclerView() {
