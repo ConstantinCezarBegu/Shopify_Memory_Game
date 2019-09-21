@@ -12,6 +12,7 @@ import com.example.shopify_memory_game.data.preference.UserData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.content_main_application.*
 import kotlinx.android.synthetic.main.dialog_get_mode.view.*
+import kotlinx.android.synthetic.main.dialog_info.view.*
 import kotlinx.android.synthetic.main.menu_bottom_sheet.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -49,6 +50,13 @@ class BottomNavigationDrawerFragment :
                 }
                 R.id.shuffle_button -> {
                     parentActivity.restartActivity()
+                }
+                R.id.game_info -> {
+                    displayInfoDialog(
+                        itemId,
+                        parentActivity.mainAcivityConstraint,
+                        parentActivity.mainAcivityConstraint as ViewGroup
+                    )
                 }
             }
             dismiss()
@@ -114,6 +122,24 @@ class BottomNavigationDrawerFragment :
             dialog.dismiss()
             parentActivity.restartActivity()
         }
+
+        dialog.show()
+    }
+
+    private fun displayInfoDialog(
+        itemId: Int,
+        view: View,
+        parent: ViewGroup
+    ) {
+        val mBuilder: AlertDialog.Builder = AlertDialog.Builder(view.context)
+        val mView: View = LayoutInflater.from(view.context)
+            .inflate(R.layout.dialog_info, parent, false)
+        mBuilder.setView(mView)
+        val dialog: AlertDialog = mBuilder.create()
+
+       mView.promptAcceptInfo.setOnClickListener {
+           dialog.dismiss()
+       }
 
         dialog.show()
     }

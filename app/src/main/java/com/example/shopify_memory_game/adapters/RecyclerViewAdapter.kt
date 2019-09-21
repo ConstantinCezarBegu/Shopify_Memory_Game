@@ -51,6 +51,7 @@ class RecyclerViewAdapter(
     ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var imageData: ImageData? = null
 
+
         override fun onClick(p0: View?) {
             if (!tracker.isCardFound(imageData!!) && !tracker.isCardSelected(imageData!!)) onRecyclerOnClickListener.onRecyclerViewClickListener(
                 imageData!!

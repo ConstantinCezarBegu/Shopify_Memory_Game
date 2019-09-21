@@ -33,20 +33,29 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
 
     private lateinit var lisAdapter: RecyclerViewAdapter
 
+    private var mLastClickTime = System.currentTimeMillis()
+    private val CLICK_TIME_INTERVAL: Long = 200
+
 
     override fun onRecyclerViewClickListener(imageData: RecyclerViewAdapter.ImageData) {
+        val now = System.currentTimeMillis()
+        if (now - mLastClickTime < CLICK_TIME_INTERVAL) {
+            return;
+        }
+        mLastClickTime = now;
+
+        activityFunctionality(false)
         when (viewmodel.imagesRecyclerViewTracker.modifyList(imageData)) {
             RecyclerViewSelectionImageTracker.CardsSelectionResponse.Add -> {
                 lisAdapter.notifyItemChanged(imageData.position)
+                activityFunctionality(true)
             }
             RecyclerViewSelectionImageTracker.CardsSelectionResponse.Match -> {
-                activityFunctionality(false)
                 viewmodel.userScore += 10
                 lisAdapter.notifyDataSetChanged()
                 activityFunctionality(true)
             }
             RecyclerViewSelectionImageTracker.CardsSelectionResponse.NoMatch -> {
-                activityFunctionality(false)
                 lisAdapter.notifyItemChanged(imageData.position)
                 viewmodel.userScore -= 2
                 Handler().postDelayed({
@@ -56,10 +65,13 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
                 }, 500)
             }
         }
-        if (viewmodel.imagesRecyclerViewTracker.cardsMatched.size == lisAdapter.itemCount) HighScoreDialog.newInstance().show(
-            supportFragmentManager,
-            null
-        )
+        if (viewmodel.imagesRecyclerViewTracker.cardsMatched.size == lisAdapter.itemCount) {
+            activityFunctionality(true)
+            HighScoreDialog.newInstance().show(
+                supportFragmentManager,
+                null
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
