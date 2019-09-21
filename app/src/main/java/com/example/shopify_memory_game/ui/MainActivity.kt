@@ -3,6 +3,7 @@ package com.example.shopify_memory_game.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.get
@@ -15,8 +16,10 @@ import com.example.shopify_memory_game.R
 import com.example.shopify_memory_game.adapters.GridLayoutWrapper
 import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
 import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracker
+import com.example.shopify_memory_game.data.network.DataSource
 import com.example.shopify_memory_game.internal.ScopedActivity
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_host.*
 import kotlinx.android.synthetic.main.content_main_application.*
 import kotlinx.coroutines.launch
@@ -94,6 +97,7 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
 
         setUpToolBar()
         setUpRecyclerView()
+        setupErrorHandling()
         setupUI()
     }
 
@@ -110,6 +114,18 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         viewmodel.imageList.await().observe(this@MainActivity, Observer {
             progressBar.visibility = View.INVISIBLE
             lisAdapter.submitList(it)
+        })
+    }
+
+    private fun setupErrorHandling(){
+        viewmodel.errorLiveData.removeObservers(this)
+        viewmodel.errorLiveData.observe(this, Observer {
+           if (it != DataSource.HttpErrors.SUCCESS){
+                Snackbar.make(this@MainActivity.activity_host_coordinator_layout, "Connection error", Snackbar.LENGTH_SHORT).run {
+                    anchorView = this@MainActivity.findViewById(R.id.bottomAppBar)
+                    show()
+                }
+            }
         })
     }
 

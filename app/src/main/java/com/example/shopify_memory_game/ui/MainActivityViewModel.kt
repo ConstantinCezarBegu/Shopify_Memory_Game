@@ -23,6 +23,8 @@ class MainActivityViewModel(
         MutableLiveData(cardSelection(repository.getImages()))
     }
 
+    val errorLiveData = repository.errorLiveData
+
     var userScore: Int
         set(value) {
             userData.userScore = value
