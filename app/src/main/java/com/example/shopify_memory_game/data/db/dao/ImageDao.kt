@@ -1,6 +1,5 @@
 package com.example.shopify_memory_game.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.shopify_memory_game.data.network.request.Image
 import com.example.shopify_memory_game.internal.productIds

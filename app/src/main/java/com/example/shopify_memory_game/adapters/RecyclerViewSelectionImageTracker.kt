@@ -1,11 +1,9 @@
 package com.example.shopify_memory_game.adapters
 
-import android.util.Log
-
 class RecyclerViewSelectionImageTracker(
     private val matchSize: Int
 ) {
-    enum class CardsSelectionResponse{
+    enum class CardsSelectionResponse {
         Add,
         Match,
         NoMatch
@@ -44,7 +42,7 @@ class RecyclerViewSelectionImageTracker(
                 _cardsMatched.addAll(_cardsSelected)
                 _cardsSelected.clear()
                 return CardsSelectionResponse.Match
-            }else{
+            } else {
                 return CardsSelectionResponse.Add
             }
         } else {

@@ -1,6 +1,5 @@
 package com.example.shopify_memory_game.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -57,7 +56,6 @@ class MainActivityViewModel(
         }
         return (finalList).shuffled()
     }
-
 
 
 }
