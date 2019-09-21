@@ -53,7 +53,6 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
                 restartActivity()
             }
         }
-
     }
 
     override fun onRecyclerViewClickListener(imageData: RecyclerViewAdapter.ImageData) {
@@ -105,7 +104,7 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     }
 
     private fun cardSelection(allImages: List<Image>): List<Image> {
-        val selectedList = allImages.shuffled().take(10)
+        val selectedList = allImages.shuffled().take((20 + viewmodel.gridSize * 20) / 2)
         return (selectedList + selectedList).shuffled()
     }
 
@@ -121,13 +120,14 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
                 mainActivityRecyclerView::setAdapter
             )
 
+        val gridSize = viewmodel.gridSize
         mainActivityRecyclerView.layoutManager =
             GridLayoutManager(
                 this,
                 when {
-                    resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT -> 4
-                    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> 5
-                    else -> 4
+                    resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT -> gridSize + 4
+                    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE -> 2*gridSize + 5 + if (gridSize == 0) 0 else 1
+                    else -> gridSize + 4
                 }, RecyclerView.VERTICAL, false
             )
     }
