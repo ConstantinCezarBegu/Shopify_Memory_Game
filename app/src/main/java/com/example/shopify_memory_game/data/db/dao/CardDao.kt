@@ -1,5 +1,6 @@
 package com.example.shopify_memory_game.data.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.internal.productIds
@@ -8,7 +9,7 @@ import com.example.shopify_memory_game.internal.productIds
 interface CardDao {
 
     @Query("SELECT * FROM memory_card")
-    fun getCards(): List<Card>
+    fun getCards(): LiveData<List<Card>>
 
     @Transaction
     suspend fun insertAll(imageList: List<Card>) {

@@ -9,9 +9,9 @@
     </style>
 
     <string-array name="grid_size">
-        <item>4x5</item>
-        <item>5x8</item>
-        <item>6x10</item>
+        <item>5x4</item>
+        <item>8x5</item>
+        <item>10x6</item>
     </string-array>
 
     <style name="FullScreenDialog" parent="Theme.MaterialComponents.DialogWhenLarge">

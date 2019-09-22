@@ -9,6 +9,7 @@ import androidx.core.view.get
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.shopify_memory_game.R
@@ -17,6 +18,7 @@ import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
 import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracker
 import com.example.shopify_memory_game.data.network.DataSource
 import com.example.shopify_memory_game.internal.ScopedActivity
+import com.example.shopify_memory_game.internal.observeChange
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_host.*
@@ -100,6 +102,14 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
         setupUI()
     }
 
+    override fun onStop() {
+        super.onStop()
+        val layoutManager = mainActivityRecyclerView.layoutManager
+        if (layoutManager != null && layoutManager is LinearLayoutManager) {
+            viewmodel.positionRecyclerView = layoutManager.findFirstVisibleItemPosition()
+        }
+    }
+
 
     private fun setUpToolBar() {
         val toolbar: BottomAppBar = findViewById(R.id.bottomAppBar)
@@ -110,10 +120,11 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     }
 
     private fun setupUI() = launch {
-        viewmodel.imageList.await().observe(this@MainActivity, Observer {
+        viewmodel.imageList.await().observeChange(this@MainActivity, Observer {
             progressBar.visibility = View.INVISIBLE
-            lisAdapter.submitList(it)
+            lisAdapter.submitList(viewmodel.cardsShuffledList(it))
         })
+        mainActivityRecyclerView.layoutManager?.scrollToPosition(viewmodel.positionRecyclerView)
     }
 
     private fun setupErrorHandling() {

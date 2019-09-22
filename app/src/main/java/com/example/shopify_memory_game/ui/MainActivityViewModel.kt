@@ -1,6 +1,5 @@
 package com.example.shopify_memory_game.ui
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracker
@@ -14,13 +13,29 @@ class MainActivityViewModel(
     private val handle: SavedStateHandle
 ) : ViewModel() {
 
+    companion object {
+        const val POSITION_RECYCLER_VIEW = "positionRecyclerView"
+    }
+
+    private var cardsShuffledList = listOf<Card>()
+    fun cardsShuffledList(imageList: List<Card>): List<Card> {
+        if (cardsShuffledList.isEmpty()) cardsShuffledList = cardSelection(imageList)
+        return cardsShuffledList
+    }
+
+    var positionRecyclerView: Int
+        get() = handle.get<Int>(POSITION_RECYCLER_VIEW) ?: 0
+        set(value) {
+            handle.set(POSITION_RECYCLER_VIEW, value)
+        }
+
     val imagesRecyclerViewTracker = RecyclerViewSelectionImageTracker(
         userData.matchSize
     )
 
     val imageList by lazyDeferred {
         userData.userScore = 0
-        MutableLiveData(cardSelection(repository.getImages()))
+        repository.getImages()
     }
 
     val errorLiveData = repository.errorLiveData

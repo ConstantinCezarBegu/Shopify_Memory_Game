@@ -1,5 +1,6 @@
 package com.example.shopify_memory_game.data.repository
 
+import androidx.lifecycle.LiveData
 import com.example.shopify_memory_game.data.db.dao.CardDao
 import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.data.preference.UserData
@@ -22,7 +23,7 @@ class Repository(
 
     val errorLiveData = dataSource.error
 
-    suspend fun getImages(): List<Card> {
+    suspend fun getImages(): LiveData<List<Card>> {
         fetchImages()
         return withContext(Dispatchers.IO) {
             return@withContext cardDao.getCards()
