@@ -35,18 +35,19 @@ class RecyclerViewSelectionImageTracker(
         return toRefresh
     }
 
+    // modifies the list by adding or removing and notifies main activity what action to take
     fun modifyList(item: RecyclerViewAdapter.ImageData): CardsSelectionResponse {
         _cardsSelected.add(item)
 
-        if (areCardsTheSame()) {
+        return if (areCardsTheSame()) {
             if (_cardsSelected.size == matchSize) {
                 _cardsMatched.addAll(_cardsSelected)
-                return CardsSelectionResponse.Match
+                CardsSelectionResponse.Match
             } else {
-                return CardsSelectionResponse.Add
+                CardsSelectionResponse.Add
             }
         } else {
-            return CardsSelectionResponse.NoMatch
+            CardsSelectionResponse.NoMatch
         }
     }
 

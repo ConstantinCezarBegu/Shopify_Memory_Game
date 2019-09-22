@@ -53,11 +53,14 @@ class RecyclerViewAdapter(
 
 
         override fun onClick(p0: View?) {
+
+            // if item is not selected then you can click it
             if (!tracker.isCardFound(imageData!!) && !tracker.isCardSelected(imageData!!)) onRecyclerOnClickListener.onRecyclerViewClickListener(
                 imageData!!
             )
         }
 
+        // binds the data to the card
         fun bind(item: Card) {
             imageData = ImageData(item.id, adapterPosition)
             val isSelected = tracker.isCardSelected(imageData!!)
@@ -85,7 +88,7 @@ class RecyclerViewAdapter(
 
     data class ImageData(val product_id: Long, val position: Int)
 
-
+    // This is used for performance improvement
     interface OnRecyclerOnClickListener {
         fun onRecyclerViewClickListener(imageData: ImageData)
     }

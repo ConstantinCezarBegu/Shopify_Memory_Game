@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
+// allows for coroutines in activity in a clean manner
 abstract class ScopedActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var job: Job
 

@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+// This will affect the json fetched but also how it is stored in the database.
 @Entity(
     tableName = "memory_card",
     indices = [Index(value = ["id"])]

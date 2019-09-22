@@ -9,6 +9,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// stores in db the data fetched
 class Repository(
     private val cardDao: CardDao,
     private val dataSource: com.example.shopify_memory_game.data.network.DataSource,

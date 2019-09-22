@@ -3,7 +3,6 @@ package com.example.shopify_memory_game.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.get
@@ -12,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.shopify_memory_game.R
 import com.example.shopify_memory_game.adapters.GridLayoutWrapper
 import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
@@ -20,7 +18,6 @@ import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracke
 import com.example.shopify_memory_game.data.network.DataSource
 import com.example.shopify_memory_game.internal.ScopedActivity
 import com.example.shopify_memory_game.internal.notifyItemsChanged
-import com.example.shopify_memory_game.internal.observeChange
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_host.*

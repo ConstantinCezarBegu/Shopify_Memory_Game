@@ -13,6 +13,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
+// used to map the values. Since classes are opened only once it will avoid memory leaks
 class MemoryApplication : Application(), KodeinAware {
 
     override val kodein: Kodein = Kodein.lazy {

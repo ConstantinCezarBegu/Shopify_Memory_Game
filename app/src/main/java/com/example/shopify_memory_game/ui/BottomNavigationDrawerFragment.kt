@@ -18,6 +18,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
+// Displays the dialog desired.
 class BottomNavigationDrawerFragment :
     BottomSheetDialogFragment(), KodeinAware {
     override val kodein by closestKodein()
@@ -64,12 +65,14 @@ class BottomNavigationDrawerFragment :
         }
     }
 
+    // prevents multiple dialogs from opening
     override fun show(manager: FragmentManager, tag: String?) {
         if (isEnabled && isVisible.not()) {
             super.show(manager, tag)
         }
     }
 
+    // saves the value of selection for persistence
     private fun displayMarkAllDialog(
         itemId: Int,
         parentActivity: MainActivity,

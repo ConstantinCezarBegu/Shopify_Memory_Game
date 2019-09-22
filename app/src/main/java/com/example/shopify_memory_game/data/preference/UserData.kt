@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 
+// wrapper over secure shared pref. This allows for clean code
 class UserData(context: Context) {
     companion object {
         const val USER_SCORE = "userScore"

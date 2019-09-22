@@ -17,21 +17,23 @@ class MainActivityViewModel(
         const val POSITION_RECYCLER_VIEW = "positionRecyclerView"
     }
 
+    val imagesRecyclerViewTracker = RecyclerViewSelectionImageTracker(
+        userData.matchSize
+    )
 
     fun cardsShuffledList(imageList: List<Card>): List<Card> {
-        if (imagesRecyclerViewTracker.cardsShuffledList.isEmpty()) imagesRecyclerViewTracker.cardsShuffledList = cardSelection(imageList)
+        if (imagesRecyclerViewTracker.cardsShuffledList.isEmpty()) imagesRecyclerViewTracker.cardsShuffledList =
+            cardSelection(imageList)
         return imagesRecyclerViewTracker.cardsShuffledList
     }
 
+    // bundle to store the position of recycler view
     var positionRecyclerView: Int
         get() = handle.get<Int>(POSITION_RECYCLER_VIEW) ?: 0
         set(value) {
             handle.set(POSITION_RECYCLER_VIEW, value)
         }
 
-    val imagesRecyclerViewTracker = RecyclerViewSelectionImageTracker(
-        userData.matchSize
-    )
 
     val imageList by lazyDeferred {
         userData.userScore = 0
@@ -64,6 +66,7 @@ class MainActivityViewModel(
             return userData.matchSize
         }
 
+    // selection of card logic
     private fun cardSelection(allCards: List<Card>): List<Card> {
         val selectedList =
             allCards.shuffled().take((20 + gridSize * 20) / matchSize)

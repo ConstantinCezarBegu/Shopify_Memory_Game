@@ -12,7 +12,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-
+// Fun dialog to display the user his high score
 class HighScoreDialog : DialogFragment(), KodeinAware {
     override val kodein by closestKodein()
     private val userData: UserData by instance()

@@ -6,6 +6,7 @@ import com.example.shopify_memory_game.data.network.request.Card
 import retrofit2.HttpException
 import java.io.IOException
 
+// Wrapper for the api class so that it can handle errors
 class DataSource(
     private val apiServiceProvider: ApiServiceProvider
 ) {
