@@ -1,8 +1,13 @@
 package com.example.shopify_memory_game.adapters
 
+import com.example.shopify_memory_game.data.network.request.Card
+import com.example.shopify_memory_game.internal.getPosition
+
 class RecyclerViewSelectionImageTracker(
     private val matchSize: Int
 ) {
+    var cardsShuffledList = listOf<Card>()
+
     enum class CardsSelectionResponse {
         Add,
         Match,
@@ -10,28 +15,24 @@ class RecyclerViewSelectionImageTracker(
     }
 
     private val _cardsMatched: MutableList<RecyclerViewAdapter.ImageData> = mutableListOf()
-    val cardsMatched: List<RecyclerViewAdapter.ImageData>
-        get() {
-            return _cardsMatched.toList()
-        }
 
     fun isCardFound(item: RecyclerViewAdapter.ImageData): Boolean {
         return item in _cardsMatched
     }
 
+    fun isComplete() = cardsShuffledList.size == _cardsMatched.size
+
     private val _cardsSelected: MutableList<RecyclerViewAdapter.ImageData> = mutableListOf()
-    val cardsSelected: List<RecyclerViewAdapter.ImageData>
-        get() {
-            return _cardsSelected.toList()
-        }
 
 
     fun isCardSelected(item: RecyclerViewAdapter.ImageData): Boolean {
         return item in _cardsSelected
     }
 
-    fun clearSelected() {
+    fun clearSelected(): List<Int> {
+        val toRefresh = _cardsSelected.getPosition()
         _cardsSelected.clear()
+        return toRefresh
     }
 
     fun modifyList(item: RecyclerViewAdapter.ImageData): CardsSelectionResponse {
@@ -40,7 +41,6 @@ class RecyclerViewSelectionImageTracker(
         if (areCardsTheSame()) {
             if (_cardsSelected.size == matchSize) {
                 _cardsMatched.addAll(_cardsSelected)
-                _cardsSelected.clear()
                 return CardsSelectionResponse.Match
             } else {
                 return CardsSelectionResponse.Add

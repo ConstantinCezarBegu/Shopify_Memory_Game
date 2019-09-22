@@ -70,6 +70,8 @@ class RecyclerViewAdapter(
             itemView.card_title.text = item.title
 
             val visibility = if (isSelected or isFound) View.VISIBLE else View.INVISIBLE
+            val visibilityNot = if (isSelected or isFound) View.INVISIBLE else View.VISIBLE
+            itemView.card_image_back.visibility = visibilityNot
             itemView.card_title.visibility = visibility
             itemView.card_image.visibility = visibility
 

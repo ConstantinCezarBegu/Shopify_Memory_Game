@@ -3,6 +3,7 @@ package com.example.shopify_memory_game.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.get
@@ -18,6 +19,7 @@ import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
 import com.example.shopify_memory_game.adapters.RecyclerViewSelectionImageTracker
 import com.example.shopify_memory_game.data.network.DataSource
 import com.example.shopify_memory_game.internal.ScopedActivity
+import com.example.shopify_memory_game.internal.notifyItemsChanged
 import com.example.shopify_memory_game.internal.observeChange
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.snackbar.Snackbar
@@ -56,20 +58,19 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
             }
             RecyclerViewSelectionImageTracker.CardsSelectionResponse.Match -> {
                 viewmodel.userScore += 10
-                lisAdapter.notifyDataSetChanged()
+                lisAdapter.notifyItemsChanged(viewmodel.imagesRecyclerViewTracker.clearSelected())
                 activityFunctionality(true)
             }
             RecyclerViewSelectionImageTracker.CardsSelectionResponse.NoMatch -> {
                 lisAdapter.notifyItemChanged(imageData.position)
                 viewmodel.userScore -= 2
                 Handler().postDelayed({
-                    viewmodel.imagesRecyclerViewTracker.clearSelected()
-                    lisAdapter.notifyDataSetChanged()
+                    lisAdapter.notifyItemsChanged(viewmodel.imagesRecyclerViewTracker.clearSelected())
                     activityFunctionality(true)
                 }, 500)
             }
         }
-        if (viewmodel.imagesRecyclerViewTracker.cardsMatched.size == lisAdapter.itemCount) {
+        if (viewmodel.imagesRecyclerViewTracker.isComplete()) {
             activityFunctionality(true)
             HighScoreDialog.newInstance().show(
                 supportFragmentManager,
@@ -120,7 +121,7 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
     }
 
     private fun setupUI() = launch {
-        viewmodel.imageList.await().observeChange(this@MainActivity, Observer {
+        viewmodel.imageList.await().observe(this@MainActivity, Observer {
             progressBar.visibility = View.INVISIBLE
             lisAdapter.submitList(viewmodel.cardsShuffledList(it))
         })
@@ -145,8 +146,6 @@ class MainActivity : ScopedActivity(), KodeinAware, RecyclerViewAdapter.OnRecycl
 
 
     private fun setUpRecyclerView() {
-        (mainActivityRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
-            false
 
         lisAdapter =
             RecyclerViewAdapter(

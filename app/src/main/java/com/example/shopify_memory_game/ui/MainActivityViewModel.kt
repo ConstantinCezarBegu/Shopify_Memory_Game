@@ -17,10 +17,10 @@ class MainActivityViewModel(
         const val POSITION_RECYCLER_VIEW = "positionRecyclerView"
     }
 
-    private var cardsShuffledList = listOf<Card>()
+
     fun cardsShuffledList(imageList: List<Card>): List<Card> {
-        if (cardsShuffledList.isEmpty()) cardsShuffledList = cardSelection(imageList)
-        return cardsShuffledList
+        if (imagesRecyclerViewTracker.cardsShuffledList.isEmpty()) imagesRecyclerViewTracker.cardsShuffledList = cardSelection(imageList)
+        return imagesRecyclerViewTracker.cardsShuffledList
     }
 
     var positionRecyclerView: Int

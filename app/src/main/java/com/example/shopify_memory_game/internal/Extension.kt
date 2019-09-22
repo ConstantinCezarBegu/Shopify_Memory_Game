@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.example.shopify_memory_game.adapters.RecyclerViewAdapter
 import com.example.shopify_memory_game.data.network.request.Card
 import com.example.shopify_memory_game.data.network.request.Image
 
@@ -16,6 +17,12 @@ val List<Card>.productIds: List<Long>
 
 fun List<Card>.getImages(): List<Image> {
     return this.map { it.image }
+}
+
+fun List<RecyclerViewAdapter.ImageData>.getPosition(): List<Int> {
+    return this.map {
+        it.position
+    }
 }
 
 fun ViewGroup.inflate(
@@ -37,4 +44,10 @@ fun <T> LiveData<T>.observeChange(
             observer.onChanged(t)
         }
     })
+}
+
+fun RecyclerViewAdapter.notifyItemsChanged(items: List<Int>) {
+    for (item in items) {
+        this.notifyItemChanged(item)
+    }
 }
