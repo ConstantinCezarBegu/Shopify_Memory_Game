@@ -15,7 +15,7 @@ Rundown of the directories and what they do.
     * Logic for the recycler view RecyclerViewSelectionImageTracker.kt: Logic that allows to track the selected items for the game.
 
 
-* [data](/app/src/main/java/com/example/shopify_memory_gamAe/data)
+* [data](/app/src/main/java/com/example/shopify_memory_game/data)
   * db
     * Dao and repository for the app (Stored the products) network: Logic that allows to fetch the data and error check it. NOTE: The entity for the card dao is located in here. This is due that I combined the annotation for retrofit and room (quicker to code)
   * preference 
